@@ -69,8 +69,11 @@ public class EnemyFSM : MonoBehaviour
     {
         if (coll.collider.tag == "bullet") // 총알 피격시 오브젝트 삭제
         {
+            Debug.Log("총 맞음");
             Destroy(coll.gameObject);
-            Destroy(gameObject);
+            gameObject.GetComponent<CapsuleCollider>().enabled = false;
+            m_State = EnemyState.Die;
+            Die();
         }
     }
 
@@ -129,8 +132,6 @@ public class EnemyFSM : MonoBehaviour
     void Damaged()
     {
         StartCoroutine(DamageProcess());
-
-
     }
 
     // 데미지 처리용 코루틴 함수
@@ -139,11 +140,11 @@ public class EnemyFSM : MonoBehaviour
         //피격 모션 시간만큼 기다린다.
         yield return new WaitForSeconds(0.5f);
 
-        m_State = EnemyState.Move;
+        m_State = EnemyState.Die;
+        Die();
     }
     void Die()
     {
-
         StopAllCoroutines();
 
 
