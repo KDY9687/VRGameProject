@@ -83,7 +83,6 @@ public class EnemyFSM : MonoBehaviour
         
         if (Vector3.Distance(transform.position, player.position) > attackDistance)
         {
-            Mathf.Pow()
             //이동 방향 설정
             Vector3 dir = new Vector3(player.position.x - transform.position.x,
                 0, player.position.z - transform.position.z).normalized;
