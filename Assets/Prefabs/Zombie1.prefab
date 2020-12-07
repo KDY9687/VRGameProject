@@ -1668,6 +1668,7 @@ GameObject:
   - component: {fileID: 7389507112651452681}
   - component: {fileID: 2075313270256590607}
   - component: {fileID: 5631722670522071339}
+  - component: {fileID: -4698748823155608394}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: Untagged
@@ -1717,7 +1718,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 5a7689af072ed0c44b356dba0d494937, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1735,7 +1736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0e6667856c8fb4ea3c665da5bed75b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDistance: 5
+  attackDistance: 1.5
   moveSpeed: 1
   attackFower: 3
   hp: 10
@@ -1749,10 +1750,26 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.3
-  m_Height: 2
+  m_Radius: 0.7
+  m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &-4698748823155608394
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4493914613880827488}
+  serializedVersion: 2
+  m_Mass: 50
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!1 &4710940672626480558
 GameObject:
   m_ObjectHideFlags: 0

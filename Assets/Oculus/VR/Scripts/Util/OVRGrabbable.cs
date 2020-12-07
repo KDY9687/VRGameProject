@@ -33,13 +33,49 @@ public class OVRGrabbable : MonoBehaviour
     [SerializeField]
     protected Collider[] m_grabPoints = null;
 
+    public Transform tr;
+    public Transform leftHandTr;
+    public Transform rightHandTr;
+    public bool reload = false;
+
+
+
     protected bool m_grabbedKinematic = false;
     protected Collider m_grabbedCollider = null;
     protected OVRGrabber m_grabbedBy = null;
 
-	/// <summary>
-	/// If true, the object can currently be grabbed.
-	/// </summary>
+    public void Update()
+    {
+        if (isGrabbed)
+        {
+            tr.rotation = m_grabbedBy.gameObject.transform.rotation;
+            tr.position = m_grabbedBy.gameObject.transform.position;
+            
+            if (m_grabbedBy.gameObject.name == "CustomHandRight")
+            {
+                tr.Rotate(0, 0, 90f);
+                tr.Translate(0.03f, 0, 0);
+
+            }
+            else
+            {
+                tr.Rotate(0, 0, -90f);
+                tr.Translate(-0.03f, 0, 0);
+            }
+
+            if(tr.rotation.z > 0.35f)
+            {
+                reload = true;
+            }
+        }
+
+
+    }
+
+
+    /// <summary>
+    /// If true, the object can currently be grabbed.
+    /// </summary>
     public bool allowOffhandGrab
     {
         get { return m_allowOffhandGrab; }

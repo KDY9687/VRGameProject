@@ -21,22 +21,26 @@ public class EnemyFSM : MonoBehaviour
     Transform player;
 
     //공격가능 범위
-    public float attackDistance = 15f;
+    public float attackDistance;
 
     //이동속도
-    public float moveSpeed = 1f;
+    public float moveSpeed;
 
     // enemy 공격력
-    public int attackFower = 3;
+    public int attackFower;
 
     // 누적시간
     float currentTime = 0;
+
+    float moveTime = 5f;
 
     //공격 딜레이 시간
     float attackDelay = 2f;
 
     // enemy 체력
     public int hp = 10;
+
+    float birthTime = 0;
 
     //초기위치
     Vector3 originPos;
@@ -70,6 +74,7 @@ public class EnemyFSM : MonoBehaviour
         if (coll.collider.tag == "bullet") // 총알 피격시 오브젝트 삭제
         {
             Debug.Log("총 맞음");
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;
             Destroy(coll.gameObject);
             gameObject.GetComponent<CapsuleCollider>().enabled = false;
             m_State = EnemyState.Die;
@@ -80,8 +85,8 @@ public class EnemyFSM : MonoBehaviour
     void Move()
     {
         //(x1-x2)^2 + (y1-y2)^2
-        
-        if (Vector3.Distance(transform.position, player.position) > attackDistance)
+        float Dist = Mathf.Sqrt(Mathf.Pow(transform.position.x - player.position.x, 2) + Mathf.Pow(transform.position.z - player.position.z, 2));
+        if (Dist > attackDistance)
         {
             //이동 방향 설정
             Vector3 dir = new Vector3(player.position.x - transform.position.x,
@@ -89,7 +94,6 @@ public class EnemyFSM : MonoBehaviour
             transform.forward = dir;
             //캐릭터 컨트롤러를 이용해 이동하기
             transform.Translate(0, 0, moveSpeed * Time.deltaTime);
-            Debug.Log("move");
             //print(Vector3.Distance(transform.position, player.position));
         }
         //그렇지 않으면 현재상태를 공격으로 전환한다.
@@ -107,7 +111,8 @@ public class EnemyFSM : MonoBehaviour
 
     void Attack()
     {
-        if (Vector3.Distance(transform.position, player.position) < attackDistance)
+        float Dist = Mathf.Sqrt(Mathf.Pow(transform.position.x - player.position.x, 2) + Mathf.Pow(transform.position.z - player.position.z, 2));
+        if (Dist < attackDistance)
         {
             currentTime += Time.deltaTime;
             if (currentTime > attackDelay)
@@ -153,9 +158,11 @@ public class EnemyFSM : MonoBehaviour
     }
     IEnumerator DieProcess()
     {
+        anim.SetTrigger("Die");
+        
         //피격 모션 시간만큼 기다린다.
         yield return new WaitForSeconds(2f);
-
+        
         Destroy(gameObject);
     }
 
@@ -169,13 +176,13 @@ public class EnemyFSM : MonoBehaviour
         //
         anim = transform.GetComponentInChildren<Animator>();
 
-       
-        player = GameObject.Find("player_spot").GetComponent<Transform>();
+        player = GameObject.Find("OVRPlayerController").GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        birthTime += Time.deltaTime;
         switch (m_State)
         {
             case EnemyState.Move:

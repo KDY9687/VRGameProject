@@ -14,9 +14,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-        transform.Rotate(Vector3.up * speed_rota * mouseX);
-        transform.Rotate(Vector3.left * speed_rota * mouseY);
+        //float mouseX = Input.GetAxis("Mouse X");
+       // float mouseY = Input.GetAxis("Mouse Y");
+        //transform.Rotate(Vector3.up * speed_rota * mouseX);
+        //transform.Rotate(Vector3.left * speed_rota * mouseY);
     }
 }
