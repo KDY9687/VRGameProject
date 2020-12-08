@@ -6,26 +6,30 @@ using UnityEngine;
 public class FireCtrl : MonoBehaviour
 {
     public GameObject bullet;
-   // public GameObject flameEffect;
+    // public GameObject flameEffect;
     public Transform firePos;
     //public Transform flamePos;
+    public int magazine = 0;
+
+    public OVRGrabbable ovrg;
 
     // Update is called once per frame
     void Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch) || OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch))
         {
-            Fire();
-        }
-        if (Input.GetMouseButtonUp(0))
-        { // Test용
-            Fire();
+            if(ovrg.isGrabbed)
+                Fire();
         }
     }
 
     void Fire()
     {
-        CreateBullet();
+        if (magazine > 0)
+        {
+            CreateBullet();
+            magazine--;
+        }
        // CreateFlame();
     }
 

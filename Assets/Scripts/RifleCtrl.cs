@@ -19,5 +19,15 @@ public class RifleCtrl : MonoBehaviour
         {
             ovrg.Rcontrol(tr);
         }
+
+        if(OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch))
+        {
+            ovrg.rHandGrap = false;
+        }
+
+        if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.LTouch))
+        {
+            ovrg.lHandGrap = false;
+        }
     }
 }

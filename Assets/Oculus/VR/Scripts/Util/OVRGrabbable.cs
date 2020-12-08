@@ -39,6 +39,8 @@ public class OVRGrabbable : MonoBehaviour
 
     public Transform rHand;
     public Transform lHand;
+    public bool lHandGrap = false;
+    public bool rHandGrap = false;
 
 	/// <summary>
 	/// If true, the object can currently be grabbed.
@@ -122,6 +124,29 @@ public class OVRGrabbable : MonoBehaviour
         m_grabbedBy = hand;
         m_grabbedCollider = grabPoint;
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        if(m_grabbedBy.gameObject.name == "CustomHandLeft" && m_grabbedCollider.gameObject.name != "M16_2_2_low")
+            lHandGrap = true;
+        if (m_grabbedBy.gameObject.name == "CustomHandRight" && m_grabbedCollider.gameObject.name != "M16_2_2_low")
+            rHandGrap = true;
+    }
+
+    public void Mcontrol(Transform tr)
+    {
+        if (m_grabbedBy.gameObject.name == "CustomHandLeft")
+        {
+            tr.rotation = lHand.rotation;
+            tr.position = lHand.position;
+            tr.Rotate(0, 180f, 0);
+            tr.Translate(0.03f, 0.02f, -0.05f);
+            
+        }
+        else
+        {
+            tr.rotation = rHand.rotation;
+            tr.position = rHand.position;
+            tr.Rotate(0, 180f, 0);
+            tr.Translate(-0.03f, 0.02f, -0.05f);
+        }
     }
 
     public void Rcontrol(Transform tr)
@@ -133,15 +158,22 @@ public class OVRGrabbable : MonoBehaviour
             tr.position = lHand.position;
             if(m_grabbedCollider.gameObject.name == "M16_3_low")
             {
-                
-                tr.forward = rHand.position - lHand.position;
-                tr.Translate(0, -0.06f, 0.125f);
+                if (rHandGrap)
+                    tr.forward = new Vector3(rHand.position.x, rHand.position.y + 0.06f, rHand.position.z) - lHand.position;
+                else
+                {
+                    tr.Rotate(0, 180f, 0);
+                    tr.Rotate(0, 0, 90f);
+                }
+                tr.Translate(0, -0.06f, 0.155f);
             }
             else
             {
-                
-                tr.forward = lHand.position - rHand.position;
-                tr.Translate(0, 0.04f, -0.209f);
+                if(rHandGrap)
+                    tr.forward = lHand.position - new Vector3(rHand.position.x, rHand.position.y - 0.06f, rHand.position.z);
+                else
+                    tr.Rotate(0, 180f, 0);
+                tr.Translate(0, 0.0f, -0.17f);
             }
         }
         else
@@ -150,16 +182,22 @@ public class OVRGrabbable : MonoBehaviour
             tr.position = rHand.position;
             if (m_grabbedCollider.gameObject.name == "M16_3_low")
             {
-                
-                tr.forward = lHand.position - rHand.position;
-                tr.Translate(0, -0.06f, 0.125f);
-                tr.Translate(0, 0.1f, 0);
+                if (lHandGrap)
+                    tr.forward = new Vector3(lHand.position.x, lHand.position.y + 0.06f, lHand.position.z) - rHand.position;
+                else
+                {
+                    tr.Rotate(0, 180f, 0);
+                    tr.Rotate(0, 0, -90f);
+                }
+                tr.Translate(0, -0.06f, 0.155f);
             }
             else
             {
-                
-                tr.forward = rHand.position - lHand.position;
-                tr.Translate(0, 0.04f, -0.209f);
+                if(lHandGrap)
+                    tr.forward = rHand.position - new Vector3(lHand.position.x, lHand.position.y- 0.06f, lHand.position.z);
+                else
+                    tr.Rotate(0, 180f, 0);
+                tr.Translate(0, 0, -0.17f);
             }
         }
     }
