@@ -21,7 +21,7 @@ public class EnemyFSM : MonoBehaviour
     Transform player;
 
     //공격가능 범위
-    public float attackDistance = 15f;
+    public float attackDistance = 2f;
 
     //이동속도
     public float moveSpeed = 1f;
@@ -69,27 +69,22 @@ public class EnemyFSM : MonoBehaviour
     {
         if (coll.collider.tag == "bullet") // 총알 피격시 오브젝트 삭제
         {
-            Debug.Log("총 맞음");
             Destroy(coll.gameObject);
-            gameObject.GetComponent<CapsuleCollider>().enabled = false;
-            m_State = EnemyState.Die;
-            Die();
+            Destroy(gameObject);
         }
     }
 
     void Move()
     {
-        //(x1-x2)^2 + (y1-y2)^2
-        
         if (Vector3.Distance(transform.position, player.position) > attackDistance)
         {
-            Mathf.Pow()
+
             //이동 방향 설정
-            Vector3 dir = new Vector3(player.position.x - transform.position.x,
+            Vector3 dir = new Vector3(player.position.x - transform.position.x, 
                 0, player.position.z - transform.position.z).normalized;
             transform.forward = dir;
             //캐릭터 컨트롤러를 이용해 이동하기
-            transform.Translate(0, 0, moveSpeed * Time.deltaTime);
+            transform.Translate(0, 0, moveSpeed*Time.deltaTime);
             Debug.Log("move");
             //print(Vector3.Distance(transform.position, player.position));
         }
@@ -97,7 +92,7 @@ public class EnemyFSM : MonoBehaviour
         else
         {
             //현재상태를 공격으로 전환
-
+            
             m_State = EnemyState.Attack;
 
             //누적 시간을 공격 딜리이 시간만큼 미리 진행시켜 놓는다.
@@ -134,6 +129,8 @@ public class EnemyFSM : MonoBehaviour
     void Damaged()
     {
         StartCoroutine(DamageProcess());
+
+
     }
 
     // 데미지 처리용 코루틴 함수
@@ -142,11 +139,11 @@ public class EnemyFSM : MonoBehaviour
         //피격 모션 시간만큼 기다린다.
         yield return new WaitForSeconds(0.5f);
 
-        m_State = EnemyState.Die;
-        Die();
+        m_State = EnemyState.Move;
     }
     void Die()
     {
+
         StopAllCoroutines();
 
 
@@ -154,6 +151,8 @@ public class EnemyFSM : MonoBehaviour
     }
     IEnumerator DieProcess()
     {
+        //컨트롤러 비활성화
+        //cc.enabled = false;
         //피격 모션 시간만큼 기다린다.
         yield return new WaitForSeconds(2f);
 
