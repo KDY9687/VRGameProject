@@ -71,7 +71,6 @@ MonoBehaviour:
   attackDistance: 2
   moveSpeed: 5
   attackFower: 3
-  hp: 10
 --- !u!1001 &5107669675438295318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,11 +83,6 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 5a7689af072ed0c44b356dba0d494937, type: 2}
-    - target: {fileID: -6057140222963153312, guid: 8f7380da49034cd488ddff94b1ac35d1,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8f7380da49034cd488ddff94b1ac35d1,
         type: 3}
       propertyPath: m_LocalPosition.x
