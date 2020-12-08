@@ -29,10 +29,11 @@ public class MagazineCtrl : MonoBehaviour
                 fCtrl.magazine = 0;
             }
         }
-        else if(Vector3.Distance(tr.position, new Vector3(rTr.position.x, rTr.position.y, rTr.position.z)) < 0.05f)
+        else if(Vector3.Distance(tr.position, new Vector3(rTr.position.x, rTr.position.y, rTr.position.z)) < 0.05f && attached == false)
         {
             attached = true;
             fCtrl.magazine = magazine;
+            SoundManager.instance.playSound("Reloading");
         }
 
         if (attached)

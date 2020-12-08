@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip Shot;
     public AudioClip Reloading;
     public AudioClip EmptyGun;
-    public AudioClip ZombieSound;
+    public AudioClip hit;
 
     AudioSource myaudio;
 
@@ -42,6 +42,10 @@ public class SoundManager : MonoBehaviour
         {
             myaudio.PlayOneShot(EmptyGun);
             Debug.Log("빈총 재생");
+        }
+        if(audioName == "hit")
+        {
+            myaudio.PlayOneShot(hit);
         }
     }
 }

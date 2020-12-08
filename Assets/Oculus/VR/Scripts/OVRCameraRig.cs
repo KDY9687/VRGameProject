@@ -353,6 +353,10 @@ public class OVRCameraRig : MonoBehaviour
 			_centerEyeCamera.stereoTargetEye = StereoTargetEyeMask.Both;
 			_leftEyeCamera.stereoTargetEye = StereoTargetEyeMask.Left;
 			_rightEyeCamera.stereoTargetEye = StereoTargetEyeMask.Right;
+
+			_centerEyeCamera.nearClipPlane = 0.01f;
+			_leftEyeCamera.nearClipPlane = 0.01f;
+			_rightEyeCamera.nearClipPlane = 0.01f;
 		}
 
 		if (monoscopic && !OVRPlugin.EyeTextureArrayEnabled)
