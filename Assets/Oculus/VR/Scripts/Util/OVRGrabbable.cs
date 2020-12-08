@@ -37,6 +37,9 @@ public class OVRGrabbable : MonoBehaviour
     protected Collider m_grabbedCollider = null;
     protected OVRGrabber m_grabbedBy = null;
 
+    public Transform rHand;
+    public Transform lHand;
+
 	/// <summary>
 	/// If true, the object can currently be grabbed.
 	/// </summary>
@@ -52,6 +55,8 @@ public class OVRGrabbable : MonoBehaviour
     {
         get { return m_grabbedBy != null; }
     }
+
+
 
 	/// <summary>
 	/// If true, the object's position will snap to match snapOffset when grabbed.
@@ -119,10 +124,50 @@ public class OVRGrabbable : MonoBehaviour
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
     }
 
-	/// <summary>
-	/// Notifies the object that it has been released.
-	/// </summary>
-	virtual public void GrabEnd(Vector3 linearVelocity, Vector3 angularVelocity)
+    public void Rcontrol(Transform tr)
+    {
+        
+        if(m_grabbedBy.gameObject.name == "CustomHandLeft")
+        {
+            tr.rotation = lHand.rotation;
+            tr.position = lHand.position;
+            if(m_grabbedCollider.gameObject.name == "M16_3_low")
+            {
+                
+                tr.forward = rHand.position - lHand.position;
+                tr.Translate(0, -0.06f, 0.125f);
+            }
+            else
+            {
+                
+                tr.forward = lHand.position - rHand.position;
+                tr.Translate(0, 0.04f, -0.209f);
+            }
+        }
+        else
+        {
+            tr.rotation = rHand.rotation;
+            tr.position = rHand.position;
+            if (m_grabbedCollider.gameObject.name == "M16_3_low")
+            {
+                
+                tr.forward = lHand.position - rHand.position;
+                tr.Translate(0, -0.06f, 0.125f);
+                tr.Translate(0, 0.1f, 0);
+            }
+            else
+            {
+                
+                tr.forward = rHand.position - lHand.position;
+                tr.Translate(0, 0.04f, -0.209f);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Notifies the object that it has been released.
+    /// </summary>
+    virtual public void GrabEnd(Vector3 linearVelocity, Vector3 angularVelocity)
     {
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         rb.isKinematic = m_grabbedKinematic;
